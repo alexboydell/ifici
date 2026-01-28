@@ -867,14 +867,20 @@
             const infoBox = document.getElementById('deadlineInfo');
             
             if (year === '2024') {
-                infoBox.innerHTML = '<strong>Application Deadline:</strong> March 15, 2025 (transitional regime)';
+                infoBox.innerHTML = '<strong>❌ Application Deadline Passed:</strong> The deadline for 2024 residents was March 15, 2025. You are no longer eligible to apply for IFICI for the 2024 tax year.';
                 infoBox.style.display = 'block';
+                infoBox.style.background = 'var(--error-bg)';
+                infoBox.style.borderLeftColor = 'var(--error)';
             } else if (year === '2025') {
-                infoBox.innerHTML = '<strong>Application Deadline:</strong> January 15, 2026';
+                infoBox.innerHTML = '<strong>⚠️ Deadline Recently Passed:</strong> The application deadline for 2025 residents was January 15, 2026. Contact the Tax Authority immediately to inquire about late application possibilities or exceptional circumstances.';
                 infoBox.style.display = 'block';
+                infoBox.style.background = 'var(--warning-bg)';
+                infoBox.style.borderLeftColor = 'var(--warning)';
             } else if (year === '2026') {
-                infoBox.innerHTML = '<strong>Application Deadline:</strong> January 15 of the year following your tax residency';
+                infoBox.innerHTML = '<strong>Application Deadline:</strong> January 15, 2027 (year following your tax residency)';
                 infoBox.style.display = 'block';
+                infoBox.style.background = 'var(--info-bg)';
+                infoBox.style.borderLeftColor = 'var(--info)';
             } else {
                 infoBox.style.display = 'none';
             }
@@ -1610,6 +1616,12 @@
                 nextSteps: []
             };
             
+            // Check residency year - 2024 deadline has passed
+            if (formData.residencyYear === '2024') {
+                results.eligible = false;
+                results.failures.push('Application deadline for 2024 residents has passed (March 15, 2025)');
+            }
+            
             // Check personal requirements
             if (formData.priorResident === 'yes') {
                 results.eligible = false;
@@ -1707,16 +1719,17 @@
                 }
             }
             
-            // Add registration deadline
-            let deadline = '';
-            if (formData.residencyYear === '2024') {
-                deadline = 'March 15, 2025';
-            } else if (formData.residencyYear === '2025') {
-                deadline = 'January 15, 2026';
-            } else {
-                deadline = 'January 15 of the year following tax residency';
+            // Add registration deadline with special notes
+            if (formData.residencyYear === '2025') {
+                results.warnings.push('Application deadline was January 15, 2026 - contact Tax Authority immediately about late application');
+                results.nextSteps.push('⚠️ URGENT: Deadline passed January 15, 2026');
+                results.nextSteps.push('Contact the Tax Authority immediately to inquire about late application possibilities');
+                results.nextSteps.push('Explain your circumstances and request guidance on exceptional circumstances provisions');
+                results.nextSteps.push('Have all documentation ready: employment contract, qualifications, employer certifications');
+                results.conditional = true;
+            } else if (formData.residencyYear === '2026') {
+                results.nextSteps.push('Submit application by January 15, 2027');
             }
-            results.nextSteps.push(`Submit application by ${deadline}`);
             
             return results;
         }
