@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFICI Eligibility Assessor - Portugal Tax Incentive</title>
+    <style>
+        :root {
+            --primary: #218085;
+            --primary-dark: #1a6568;
+            --primary-light: #2a9fa4;
+            --bg-primary: #fdfcf9;
+            --bg-secondary: #f5f3ed;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --border: #e2dfd6;
+            --success: #059669;
+            --success-bg: #d1fae5;
+            --error: #dc2626;
+            --error-bg: #fee2e2;
+            --warning: #d97706;
+            --warning-bg: #fed7aa;
+            --info: #0284c7;
+            --info-bg: #dbeafe;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #1a1a1a;
+                --bg-secondary: #2d2d2d;
+                --text-primary: #e2e8f0;
+                --text-secondary: #cbd5e0;
+                --border: #404040;
+                --success-bg: #064e3b;
+                --error-bg: #7f1d1d;
+                --warning-bg: #78350f;
+                --info-bg: #0c4a6e;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 2px solid var(--border);
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .regulation-ref {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .disclaimer {
+            background: var(--warning-bg);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .disclaimer strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--warning);
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .step::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            right: -50%;
+            height: 2px;
+            background: var(--border);
+            z-index: -1;
+        }
+
+        .step:last-child::before {
+            display: none;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .step.completed .step-number {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .step.active .step-number {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .step-content {
+            display: none;
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .radio-option:hover, .checkbox-option:hover {
+            border-color: var(--primary-light);
+        }
+
+        .radio-option input, .checkbox-option input {
+            margin-right: 10px;
+            margin-top: 2px;
+        }
+
+        select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .info-box {
+            background: var(--info-bg);
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .conditional-field {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .conditional-field.show {
+            display: block;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .result-box {
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 2px solid;
+        }
+
+        .result-box.eligible {
+            background: var(--success-bg);
+            border-color: var(--success);
+        }
+
+        .result-box.ineligible {
+            background: var(--error-bg);
+            border-color: var(--error);
+        }
+
+        .result-box.conditional {
+            background: var(--warning-bg);
+            border-color: var(--warning);
+        }
+
+        .result-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .result-box.eligible h3 {
+            color: var(--success);
+        }
+
+        .result-box.ineligible h3 {
+            color: var(--error);
+        }
+
+        .result-box.conditional h3 {
+            color: var(--warning);
+        }
+
+        .checklist {
+            margin: 20px 0;
+        }
+
+        .checklist-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .checklist-item::before {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .checklist-item.pass::before {
+            content: '✓';
+            color: var(--success);
+        }
+
+        .checklist-item.fail::before {
+            content: '✗';
+            color: var(--error);
+        }
+
+        .next-steps {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .next-steps h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .next-steps ul {
+            margin-left: 20px;
+        }
+
+        .next-steps li {
+            margin: 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .step-label {
+                font-size: 0.65rem;
+            }
+
+            .step-content {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .help-tooltip {
+            background: var(--info-bg);
+            border-left: 4px solid var(--info);
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .help-tooltip strong {
+            color: var(--info);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .help-tooltip ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .help-tooltip li {
+            margin: 5px 0;
+        }
+
+        .help-tooltip a {
+            color: var(--primary);
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        .help-tooltip a:hover {
+            color: var(--primary-dark);
+        }
+
+        .disclaimer-container {
+            background: var(--warning-bg);
+            border-left: 4px solid var(--warning);
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .disclaimer-header {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .disclaimer-header:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .disclaimer-header strong {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--warning);
+        }
+
+        .disclaimer-toggle {
+            font-size: 1.2rem;
+            color: var(--warning);
+            transition: transform 0.3s;
+        }
+
+        .disclaimer-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .disclaimer-content {
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            padding: 0 15px 15px 15px;
+        }
+
+        .disclaimer-content.collapsed {
+            max-height: 0;
+            padding: 0 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>IFICI Eligibility Assessor</h1>
+            <p class="regulation-ref">Tax Incentive for Scientific Research and Innovation</p>
+            <p class="regulation-ref">Based on Ordinance 352/2024/1 (December 23, 2024)</p>
+            <p style="margin-top: 15px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; align-items: center;">
+                <a href="https://info.portaldasfinancas.gov.pt/pt/atualidades/legislativa/Paginas/Portaria_352_2024_1.aspx" target="_blank" rel="noopener noreferrer" 
+                   style="display: inline-block; padding: 8px 16px; background: var(--primary); color: white; text-decoration: none; border-radius: 6px; font-size: 0.9rem; transition: background 0.2s;"
+                   onmouseover="this.style.background='var(--primary-dark)'"
+                   onmouseout="this.style.background='var(--primary)'">
+                    📄 View Official Ordinance (Tax Authority)
+                </a>
+                <a href="https://x.com/BritishTuga" target="_blank" rel="noopener noreferrer" 
+                   style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #000000; color: white; text-decoration: none; border-radius: 6px; font-size: 1rem; font-weight: 500; transition: background 0.2s;"
+                   onmouseover="this.style.background='#333333'"
+                   onmouseout="this.style.background='#000000'">
+                    <svg style="width: 20px; height: 20px; fill: white;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    Follow @BritishTuga
+                </a>
+            </p>
+        </header>
+
+        <div class="disclaimer-container">
+            <div class="disclaimer-header" onclick="toggleDisclaimer()">
+                <strong>⚠️ Important Disclaimer</strong>
+                <span class="disclaimer-toggle collapsed">▼</span>
+            </div>
+            <div class="disclaimer-content collapsed" id="disclaimerContent">
+                <p>This tool provides general information only and is not legal or tax advice. Results are indicative based on the information you provide. For official guidance, consult a qualified tax professional or the Portuguese Tax Authority (AT).</p>
+            </div>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-label">Personal</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-label">Activity</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-label">Qualifications</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-label">Employer</div>
+            </div>
+            <div class="step" data-step="5">
+                <div class="step-number">5</div>
+                <div class="step-label">Results</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Personal Requirements -->
+        <div class="step-content active" id="step1">
+            <h2>Step 1: Personal Requirements</h2>
+            
+            <div class="help-tooltip">
+                <strong>💡 Where to Find This Information</strong>
+                <ul>
+                    <li><strong>Tax residency status:</strong> Check your tax returns, employment contracts, or consult with your accountant</li>
+                    <li><strong>Prior NHR/Regressar benefits:</strong> Review your past tax declarations or contact the <a href="https://www.portaldasfinancas.gov.pt" target="_blank" rel="noopener noreferrer">Tax Authority (AT)</a></li>
+                    <li><strong>Need help?</strong> Your tax advisor can confirm your residency history and prior benefit usage</li>
+                </ul>
+            </div>
+            
+            <div class="form-group">
+                <label>When did/will you become a Portuguese tax resident?</label>
+                <select id="residencyYear" required>
+                    <option value="">Select year...</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026 or later</option>
+                </select>
+                <div class="info-box" id="deadlineInfo" style="display: none;"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Were you a Portuguese tax resident in any of the 5 years before becoming a resident again?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="priorResidentNo" name="priorResident" value="no">
+                        <label for="priorResidentNo">No, I was not a Portuguese tax resident in the prior 5 years</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="priorResidentYes" name="priorResident" value="yes">
+                        <label for="priorResidentYes">Yes, I was a Portuguese tax resident within the prior 5 years</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Have you previously benefited from the NHR (Non-Habitual Resident) or Regressar regime?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="priorBenefitNo" name="priorBenefit" value="no">
+                        <label for="priorBenefitNo">No, I have not benefited from NHR or Regressar</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="priorBenefitYes" name="priorBenefit" value="yes">
+                        <label for="priorBenefitYes">Yes, I have previously benefited from NHR or Regressar</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-message" id="step1Error">Please answer all questions before continuing.</div>
+
+            <div class="button-group">
+                <button type="button" class="btn-primary" onclick="nextStep(1)">Next Step →</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Activity Type -->
+        <div class="step-content" id="step2">
+            <h2>Step 2: Activity Type</h2>
+            
+            <div class="help-tooltip">
+                <strong>💡 Where to Find This Information</strong>
+                <ul>
+                    <li><strong>Your employment contract:</strong> Check job title, role description, and company type</li>
+                    <li><strong>Ask your employer:</strong> HR or finance department can confirm which IFICI category applies</li>
+                    <li><strong>Company certifications:</strong> Ask if they hold startup certification, SIFIDE registration, or RFAI status</li>
+                    <li><strong>Unsure?</strong> Review the <a href="https://info.portaldasfinancas.gov.pt/pt/atualidades/legislativa/Paginas/Portaria_352_2024_1.aspx" target="_blank" rel="noopener noreferrer">official ordinance</a> or consult a tax professional</li>
+                </ul>
+            </div>
+            
+            <div class="form-group">
+                <label>What type of activity will you be performing in Portugal?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="activityTeaching" name="activityType" value="teaching">
+                        <label for="activityTeaching">
+                            <strong>Teaching or Scientific Research</strong><br>
+                            <small>University professors, researchers at higher education/research institutions, technology/innovation centers</small>
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="activityQualified" name="activityType" value="qualified">
+                        <label for="activityQualified">
+                            <strong>Highly Qualified Profession</strong><br>
+                            <small>Directors, specialists (ICT, engineering, sciences), doctors, designers</small>
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="activityStartup" name="activityType" value="startup">
+                        <label for="activityStartup">
+                            <strong>Certified Startup Employee</strong><br>
+                            <small>Employee of a startup certified under Law 21/2023 (max 10 years old, <250 employees, <€50M turnover)</small>
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="activityRD" name="activityType" value="rd">
+                        <label for="activityRD">
+                            <strong>R&D Activities</strong><br>
+                            <small>Research and development registered under SIFIDE (Business R&D Tax Incentive)</small>
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="activityProductive" name="activityType" value="productive">
+                        <label for="activityProductive">
+                            <strong>Productive Investment</strong><br>
+                            <small>Employment linked to RFAI (Investment Support Tax Regime) contractual benefits</small>
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="activityRegional" name="activityType" value="regional">
+                        <label for="activityRegional">
+                            <strong>Autonomous Regions (Madeira/Azores)</strong><br>
+                            <small>Activities in autonomous regions - regulations pending</small>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-message" id="step2Error">Please select an activity type before continuing.</div>
+
+            <div class="button-group">
+                <button type="button" class="btn-secondary" onclick="previousStep(2)">← Previous</button>
+                <button type="button" class="btn-primary" onclick="nextStep(2)">Next Step →</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Qualifications -->
+        <div class="step-content" id="step3">
+            <h2>Step 3: Qualifications</h2>
+            
+            <div class="help-tooltip" id="step3Help">
+                <strong>💡 Where to Find This Information</strong>
+                <ul>
+                    <li><strong>Educational qualifications:</strong> Your diploma, degree certificate, or transcript</li>
+                    <li><strong>EQF level verification:</strong> Check with your university or use the <a href="https://www.dges.gov.pt" target="_blank" rel="noopener noreferrer">DGES</a> (Directorate-General for Higher Education)</li>
+                    <li><strong>Professional experience:</strong> Employment contracts, reference letters, LinkedIn profile, or CV</li>
+                    <li><strong>Foreign degrees:</strong> May need recognition through <a href="https://www.dges.gov.pt/pt/reconhecimento" target="_blank" rel="noopener noreferrer">DGES degree recognition</a></li>
+                    <li><strong>Experience verification:</strong> Past employers can provide written confirmation of your work history</li>
+                </ul>
+            </div>
+            
+            <div id="qualificationsContent">
+                <div class="form-group">
+                    <label>What is your highest educational qualification?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="qualPhd" name="qualification" value="phd">
+                            <label for="qualPhd">
+                                <strong>EQF Level 8 (Doctorate/PhD)</strong>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="qualBachelor" name="qualification" value="bachelor">
+                            <label for="qualBachelor">
+                                <strong>EQF Level 6 (Bachelor's Degree or equivalent)</strong>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="qualOther" name="qualification" value="other">
+                            <label for="qualOther">
+                                <strong>Other / Lower than Bachelor's</strong>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="conditional-field" id="experienceField">
+                    <label>Years of verified professional experience:</label>
+                    <input type="number" id="yearsExperience" min="0" max="50" placeholder="Enter years of experience">
+                    <div class="info-box">
+                        For Bachelor's degree holders, you must have at least 3 years of verified professional experience in your field.
+                    </div>
+                </div>
+
+                <div class="form-group" id="professionField" style="display: none;">
+                    <label>Select your highly qualified profession:</label>
+                    <select id="profession">
+                        <option value="">Select profession...</option>
+                        <option value="director">Director / Executive Manager / General Manager</option>
+                        <option value="admin_director">Director of Administrative and Commercial Services</option>
+                        <option value="production_director">Director of Production and Specialized Services</option>
+                        <option value="specialist_sciences">Specialist in Physical Sciences, Mathematics, Engineering, Technical Fields</option>
+                        <option value="designer">Industrial Product or Equipment Designer</option>
+                        <option value="doctor">Doctor (Medical/Healthcare)</option>
+                        <option value="professor">University and Higher Education Professor</option>
+                        <option value="ict_specialist">Specialist in Information and Communication Technologies (ICT)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="error-message" id="step3Error"></div>
+
+            <div class="button-group">
+                <button type="button" class="btn-secondary" onclick="previousStep(3)">← Previous</button>
+                <button type="button" class="btn-primary" onclick="nextStep(3)">Next Step →</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Employer Details -->
+        <div class="step-content" id="step4">
+            <h2>Step 4: Employer Details</h2>
+            
+            <div id="employerContent"></div>
+
+            <div class="error-message" id="step4Error"></div>
+
+            <div class="button-group">
+                <button type="button" class="btn-secondary" onclick="previousStep(4)">← Previous</button>
+                <button type="button" class="btn-primary" onclick="calculateResults()">Calculate Results →</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Results -->
+        <div class="step-content" id="step5">
+            <h2>Step 5: Assessment Results</h2>
+            
+            <div class="help-tooltip">
+                <strong>💡 Next Steps After Your Assessment</strong>
+                <ul>
+                    <li><strong>If eligible:</strong> Contact the relevant application entity listed in your results</li>
+                    <li><strong>Gather documents:</strong> Employment contract, qualifications, employer certifications, proof of residency</li>
+                    <li><strong>Application deadline:</strong> Note the deadline shown in your results - this is mandatory</li>
+                    <li><strong>Professional advice:</strong> Consider consulting a tax advisor to ensure all requirements are met</li>
+                    <li><strong>Download your report:</strong> Keep a copy of this assessment for your records</li>
+                    <li><strong>Official guidance:</strong> Visit <a href="https://www.portaldasfinancas.gov.pt" target="_blank" rel="noopener noreferrer">Tax Authority (AT)</a> for official IFICI information</li>
+                </ul>
+            </div>
+            
+            <div id="resultsContent"></div>
+
+            <div class="button-group">
+                <button type="button" class="btn-primary" id="downloadBtn" onclick="downloadReport()">Download Report</button>
+                <button type="button" class="btn-secondary" id="resetBtn" onclick="resetAssessment()">Start New Assessment</button>
+            </div>
+        </div>
+    </div>
+
+    <footer style="max-width: 900px; margin: 40px auto 20px; padding: 30px; background: var(--bg-secondary); border-radius: 8px; border: 2px solid var(--border);">
+        <h3 style="color: var(--primary); margin-bottom: 20px; font-size: 1.2rem;">Useful Resources & Links</h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div>
+                <h4 style="color: var(--text-primary); margin-bottom: 10px; font-size: 1rem;">Government Agencies</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 8px 0;"><a href="https://www.portaldasfinancas.gov.pt" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">🏛️ Tax Authority (AT)</a></li>
+                    <li style="margin: 8px 0;"><a href="https://info.portaldasfinancas.gov.pt/pt/atualidades/legislativa/Paginas/Portaria_352_2024_1.aspx" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">📋 IFICI Official Page (AT)</a></li>
+                    <li style="margin: 8px 0;"><a href="https://www.ani.pt" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">🔬 ANI - National Innovation Agency</a></li>
+                    <li style="margin: 8px 0;"><a href="https://www.fct.pt" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">📚 FCT - Science & Technology Foundation</a></li>
+                    <li style="margin: 8px 0;"><a href="https://www.aicep.pt" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">🌍 AICEP - Investment Agency</a></li>
+                    <li style="margin: 8px 0;"><a href="https://www.iapmei.pt" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">🏢 IAPMEI - SME Support</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 style="color: var(--text-primary); margin-bottom: 10px; font-size: 1rem;">Startup & Innovation</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 8px 0;"><a href="https://startupportugal.com/startup-status/" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">🚀 Startup Portugal - Certified Startups</a></li>
+                    <li style="margin: 8px 0;"><a href="https://dados.gov.pt/pt/datasets/lista-de-empresas-reconhecidas-com-o-estatuto-de-startup/" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">🔍 Search Certified Startups Database</a></li>
+                    <li style="margin: 8px 0;"><a href="https://www2.gov.pt/en-GB/inicio/espaco-empresa/balcao-do-empreendedor/pedido-de-certificacao-de-startup-e-scaleup" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">📋 ePortugal - Apply for Certification</a></li>
+                    <li style="margin: 8px 0;"><a href="https://www.ani.pt/en/valorization/tax-incentives/sifide-ii/" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">🔬 SIFIDE - R&D Tax Incentive</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 style="color: var(--text-primary); margin-bottom: 10px; font-size: 1rem;">Official Data & Information</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 8px 0;"><a href="https://dados.gov.pt" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">📊 Dados.gov.pt - Open Data Portal</a></li>
+                    <li style="margin: 8px 0;"><a href="https://diariodarepublica.pt" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">📰 Diário da República - Official Gazette</a></li>
+                    <li style="margin: 8px 0;"><a href="https://eportugal.gov.pt" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;">🇵🇹 ePortugal - Government Services</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid var(--border);">
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 8px;">
+                <strong>IFICI Legal Framework:</strong> Ordinance 352/2024/1 (December 23, 2024)
+            </p>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+                This tool is for informational purposes only. For official guidance, consult the Portuguese Tax Authority or a qualified tax professional. All links open in a new window for your convenience.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Global state
+        let currentStep = 1;
+        let formData = {};
+
+        // Toggle disclaimer visibility
+        function toggleDisclaimer() {
+            const content = document.getElementById('disclaimerContent');
+            const toggle = document.querySelector('.disclaimer-toggle');
+            
+            content.classList.toggle('collapsed');
+            toggle.classList.toggle('collapsed');
+        }
+
+        // Event listeners for dynamic fields
+        document.getElementById('residencyYear').addEventListener('change', function() {
+            const year = this.value;
+            const infoBox = document.getElementById('deadlineInfo');
+            
+            if (year === '2024') {
+                infoBox.innerHTML = '<strong>Application Deadline:</strong> March 15, 2025 (transitional regime)';
+                infoBox.style.display = 'block';
+            } else if (year === '2025') {
+                infoBox.innerHTML = '<strong>Application Deadline:</strong> January 15, 2026';
+                infoBox.style.display = 'block';
+            } else if (year === '2026') {
+                infoBox.innerHTML = '<strong>Application Deadline:</strong> January 15 of the year following your tax residency';
+                infoBox.style.display = 'block';
+            } else {
+                infoBox.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('input[name="qualification"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const experienceField = document.getElementById('experienceField');
+                if (this.value === 'bachelor') {
+                    experienceField.classList.add('show');
+                } else {
+                    experienceField.classList.remove('show');
+                }
+            });
+        });
+
+        document.querySelectorAll('input[name="activityType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                updateStep3Content();
+            });
+        });
+
+        function updateStep3Content() {
+            const activityType = document.querySelector('input[name="activityType"]:checked')?.value;
+            const qualificationsContent = document.getElementById('qualificationsContent');
+            const professionField = document.getElementById('professionField');
+            const step3Help = document.getElementById('step3Help');
+            
+            if (activityType === 'teaching') {
+                qualificationsContent.style.display = 'none';
+                step3Help.innerHTML = `
+                    <strong>💡 Information for Teaching & Research</strong>
+                    <p style="margin-top: 8px;">For teaching and scientific research positions, specific qualification verification will be handled by <a href="https://www.fct.pt" target="_blank" rel="noopener noreferrer">FCT</a> during the application process. You can proceed to the next step to provide employer details.</p>
+                `;
+            } else if (activityType === 'qualified' || activityType === 'productive') {
+                qualificationsContent.style.display = 'block';
+                professionField.style.display = 'block';
+                step3Help.innerHTML = `
+                    <strong>💡 Where to Find This Information</strong>
+                    <ul>
+                        <li><strong>Educational qualifications:</strong> Your diploma, degree certificate, or transcript</li>
+                        <li><strong>EQF level verification:</strong> Check with your university or use the <a href="https://www.dges.gov.pt" target="_blank" rel="noopener noreferrer">DGES</a> (Directorate-General for Higher Education)</li>
+                        <li><strong>Professional experience:</strong> Employment contracts, reference letters, LinkedIn profile, or CV</li>
+                        <li><strong>Foreign degrees:</strong> May need recognition through <a href="https://www.dges.gov.pt/pt/reconhecimento" target="_blank" rel="noopener noreferrer">DGES degree recognition</a></li>
+                        <li><strong>Experience verification:</strong> Past employers can provide written confirmation of your work history</li>
+                    </ul>
+                `;
+            } else {
+                qualificationsContent.style.display = 'block';
+                professionField.style.display = 'none';
+                step3Help.innerHTML = `
+                    <strong>💡 Where to Find This Information</strong>
+                    <ul>
+                        <li><strong>Educational qualifications:</strong> Your diploma, degree certificate, or transcript</li>
+                        <li><strong>EQF level verification:</strong> Check with your university or use the <a href="https://www.dges.gov.pt" target="_blank" rel="noopener noreferrer">DGES</a> (Directorate-General for Higher Education)</li>
+                        <li><strong>Professional experience:</strong> Employment contracts, reference letters, LinkedIn profile, or CV</li>
+                        <li><strong>Foreign degrees:</strong> May need recognition through <a href="https://www.dges.gov.pt/pt/reconhecimento" target="_blank" rel="noopener noreferrer">DGES degree recognition</a></li>
+                        <li><strong>Experience verification:</strong> Past employers can provide written confirmation of your work history</li>
+                    </ul>
+                `;
+            }
+        }
+
+        function nextStep(step) {
+            if (!validateStep(step)) {
+                return;
+            }
+            
+            collectStepData(step);
+            
+            // Update UI
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.querySelector(`.step[data-step="${step}"]`).classList.remove('active');
+            document.querySelector(`.step[data-step="${step}"]`).classList.add('completed');
+            
+            currentStep = step + 1;
+            
+            if (currentStep === 4) {
+                renderEmployerStep();
+            }
+            
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function previousStep(step) {
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.querySelector(`.step[data-step="${step}"]`).classList.remove('active');
+            
+            currentStep = step - 1;
+            
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('completed');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function validateStep(step) {
+            const errorEl = document.getElementById(`step${step}Error`);
+            errorEl.classList.remove('show');
+            
+            if (step === 1) {
+                const residencyYear = document.getElementById('residencyYear').value;
+                const priorResident = document.querySelector('input[name="priorResident"]:checked');
+                const priorBenefit = document.querySelector('input[name="priorBenefit"]:checked');
+                
+                if (!residencyYear || !priorResident || !priorBenefit) {
+                    errorEl.classList.add('show');
+                    return false;
+                }
+            } else if (step === 2) {
+                const activityType = document.querySelector('input[name="activityType"]:checked');
+                if (!activityType) {
+                    errorEl.classList.add('show');
+                    return false;
+                }
+            } else if (step === 3) {
+                const activityType = formData.activityType;
+                
+                if (activityType === 'teaching') {
+                    return true;
+                }
+                
+                const qualification = document.querySelector('input[name="qualification"]:checked');
+                if (!qualification) {
+                    errorEl.textContent = 'Please select your qualification level.';
+                    errorEl.classList.add('show');
+                    return false;
+                }
+                
+                if (qualification.value === 'bachelor') {
+                    const experience = document.getElementById('yearsExperience').value;
+                    if (!experience || parseInt(experience) < 3) {
+                        errorEl.textContent = 'Bachelor\'s degree holders must have at least 3 years of verified professional experience.';
+                        errorEl.classList.add('show');
+                        return false;
+                    }
+                }
+                
+                if (activityType === 'qualified' || activityType === 'productive') {
+                    const profession = document.getElementById('profession').value;
+                    if (!profession) {
+                        errorEl.textContent = 'Please select your profession.';
+                        errorEl.classList.add('show');
+                        return false;
+                    }
+                }
+            } else if (step === 4) {
+                return validateEmployerStep();
+            }
+            
+            return true;
+        }
+
+        function collectStepData(step) {
+            if (step === 1) {
+                formData.residencyYear = document.getElementById('residencyYear').value;
+                formData.priorResident = document.querySelector('input[name="priorResident"]:checked').value;
+                formData.priorBenefit = document.querySelector('input[name="priorBenefit"]:checked').value;
+            } else if (step === 2) {
+                formData.activityType = document.querySelector('input[name="activityType"]:checked').value;
+            } else if (step === 3) {
+                const activityType = formData.activityType;
+                
+                if (activityType !== 'teaching') {
+                    const qualification = document.querySelector('input[name="qualification"]:checked');
+                    formData.qualification = qualification ? qualification.value : null;
+                    
+                    if (qualification && qualification.value === 'bachelor') {
+                        formData.yearsExperience = document.getElementById('yearsExperience').value;
+                    }
+                    
+                    if (activityType === 'qualified' || activityType === 'productive') {
+                        formData.profession = document.getElementById('profession').value;
+                    }
+                }
+            }
+        }
+
+        function renderEmployerStep() {
+            const container = document.getElementById('employerContent');
+            const activityType = formData.activityType;
+            
+            let html = '';
+            
+            if (activityType === 'teaching') {
+                html = `
+                    <div class="help-tooltip">
+                        <strong>💡 Where to Find This Information</strong>
+                        <ul>
+                            <li><strong>Institution type:</strong> Check your employment contract or offer letter</li>
+                            <li><strong>Official recognition:</strong> Ask HR if the institution is officially recognized by <a href="https://www.fct.pt" target="_blank" rel="noopener noreferrer">FCT</a> or the Ministry of Education</li>
+                            <li><strong>Research centers:</strong> Verify if your employer is listed in FCT's database of research units</li>
+                            <li><strong>Your application:</strong> Will be submitted through <a href="https://www.fct.pt" target="_blank" rel="noopener noreferrer">FCT (Fundação para a Ciência e a Tecnologia)</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Type of employer institution:</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="empHigherEd" name="employerType" value="higher_education">
+                                <label for="empHigherEd">Higher Education Institution</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="empResearch" name="employerType" value="research">
+                                <label for="empResearch">Scientific Research Institution</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="empTech" name="employerType" value="tech_center">
+                                <label for="empTech">Technology/Innovation Center</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="empOther" name="employerType" value="other">
+                                <label for="empOther">Other type of institution</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Application Entity:</strong> FCT (Fundação para a Ciência e a Tecnologia)
+                    </div>
+                `;
+            } else if (activityType === 'startup') {
+                html = `
+                    <div class="info-box" style="background: var(--warning-bg); border-left-color: var(--warning);">
+                        <strong>⚠️ Verification Required</strong>
+                        <p style="margin-top: 8px;">Startup certification is mandatory and must be verified through official channels. Meeting the criteria alone is not sufficient - your employer must hold a valid digital certificate from Startup Portugal.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Has your employer confirmed they hold a valid startup certificate from Startup Portugal?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="startupYes" name="startupCertified" value="yes">
+                                <label for="startupYes">
+                                    <strong>Yes, employer has confirmed certification</strong><br>
+                                    <small>Employer has shown/provided their digital certificate</small>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="startupUnsure" name="startupCertified" value="unsure">
+                                <label for="startupUnsure">
+                                    <strong>Unsure / Need to verify</strong><br>
+                                    <small>Haven't seen the certificate yet</small>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="startupNo" name="startupCertified" value="no">
+                                <label for="startupNo">
+                                    <strong>No, not certified</strong><br>
+                                    <small>Employer confirmed they don't have certification</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="conditional-field" id="startupVerificationGuide">
+                        <h4 style="color: var(--primary); margin-bottom: 12px;">How to Verify Startup Certification</h4>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>Ask Your Employer For:</strong>
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li>Copy of their digital certificate from Startup Portugal</li>
+                                <li>Certificate issue date and expiry date (valid for 3 years)</li>
+                                <li>Confirmation they still meet all criteria</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>Verify on Public Database:</strong>
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li><strong>Official Certified Startups List:</strong> <a href="https://dados.gov.pt/pt/datasets/lista-de-empresas-reconhecidas-com-o-estatuto-de-startup/" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline;">dados.gov.pt - Searchable Database</a> - Search by company name</li>
+                                <li><strong>Startup Portugal Status Page:</strong> <a href="https://startupportugal.com/startup-status/" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline;">View all certified companies</a> - Full table of recognized startups</li>
+                                <li><strong>Application Process:</strong> <a href="https://www2.gov.pt/en-GB/inicio/espaco-empresa/balcao-do-empreendedor/pedido-de-certificacao-de-startup-e-scaleup" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline;">ePortugal Certification</a> - Learn about the certification process</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: var(--bg-primary); padding: 12px; border-radius: 4px; border-left: 3px solid var(--info);">
+                            <strong>Certification Requirements (Law 21/2023):</strong>
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li>Company age: Less than 10 years old</li>
+                                <li>Workforce: Fewer than 250 employees</li>
+                                <li>Revenue: Less than €50M annual turnover</li>
+                                <li>Digital certificate valid for 3 years (renewable)</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 12px; background: var(--success-bg); border-radius: 4px;">
+                            <strong style="color: var(--success);">✓ Verification Checklist:</strong>
+                            <ul style="margin-left: 20px; margin-top: 8px; color: var(--text-primary);">
+                                <li>Employer has provided their digital certificate</li>
+                                <li>Certificate is currently valid (not expired)</li>
+                                <li>Company appears on public database</li>
+                                <li>Company still meets all size/age requirements</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Application Entity:</strong> Startup Portugal Association<br>
+                        <strong>Note:</strong> Certification is free of charge and processed within 5 working days.
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    const startupRadios = document.querySelectorAll('input[name="startupCertified"]');
+                    const verificationGuide = document.getElementById('startupVerificationGuide');
+                    
+                    startupRadios.forEach(radio => {
+                        radio.addEventListener('change', function() {
+                            if (this.value === 'unsure') {
+                                verificationGuide.classList.add('show');
+                            } else {
+                                verificationGuide.classList.remove('show');
+                            }
+                        });
+                    });
+                }, 100);
+            } else if (activityType === 'qualified' || activityType === 'productive') {
+                html = `
+                    <div class="help-tooltip">
+                        <strong>💡 Where to Find This Information</strong>
+                        <ul>
+                            <li><strong>Employer category:</strong> Ask your company's finance or legal department which applies</li>
+                            <li><strong>RFAI status:</strong> Check if your employer has investment tax benefits - <a href="https://info.portaldasfinancas.gov.pt" target="_blank" rel="noopener noreferrer">Tax Authority info</a></li>
+                            <li><strong>CAE sector code:</strong> Found on company registration documents, tax returns, or ask accounting department</li>
+                            <li><strong>Export percentage:</strong> Finance department has this data from annual reports and customs declarations</li>
+                            <li><strong>Strategic recognition:</strong> Ask if company has agreements with <a href="https://www.aicep.pt" target="_blank" rel="noopener noreferrer">AICEP</a> or <a href="https://www.iapmei.pt" target="_blank" rel="noopener noreferrer">IAPMEI</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Select your employer category:</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="catRFAI" name="employerCategory" value="rfai">
+                                <label for="catRFAI">
+                                    <strong>RFAI Investment Support</strong><br>
+                                    <small>Company has/had relevant RFAI applications in current or past 5 financial years</small>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="catExport" name="employerCategory" value="export">
+                                <label for="catExport">
+                                    <strong>Export Manufacturing/Industrial</strong><br>
+                                    <small>Eligible sector exporting 50%+ of turnover</small>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="catStrategic" name="employerCategory" value="strategic">
+                                <label for="catStrategic">
+                                    <strong>Strategic Investment</strong><br>
+                                    <small>Recognized by AICEP or IAPMEI as important to Portuguese economy</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="conditional-field" id="rfaiField">
+                        <div class="info-box" style="background: var(--info-bg); border-left-color: var(--info); margin-bottom: 15px;">
+                            <strong>💡 Verification Tip</strong>
+                            <p style="margin-top: 8px;">RFAI (Investment Support Tax Regime) applications are submitted to the Tax Authority. Ask your employer's finance/legal department:</p>
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>If the company has submitted RFAI applications (current or past 5 years)</li>
+                                <li>Whether your role is related to the RFAI-supported investment project</li>
+                                <li>For documentation showing RFAI approval and scope</li>
+                            </ul>
+                            <p style="margin-top: 10px;"><strong>More Information:</strong> <a href="https://info.portaldasfinancas.gov.pt/pt/apoio_contribuinte/Folhetos_informativos/Documents/Folheto_Investimento_em_Portugal.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline;">Tax Incentives for Investment in Portugal (PDF)</a> - See section on RFAI</p>
+                        </div>
+                        
+                        <label>RFAI Application Status:</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="rfaiYes" name="rfaiStatus" value="yes">
+                                <label for="rfaiYes">
+                                    <strong>Company has relevant RFAI applications</strong><br>
+                                    <small>Current year or past 5 financial years, related to your role</small>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="rfaiNo" name="rfaiStatus" value="no">
+                                <label for="rfaiNo">
+                                    <strong>No relevant RFAI applications</strong><br>
+                                    <small>Company doesn't have RFAI status or it's not related to your role</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="conditional-field" id="exportField">
+                        <div class="info-box" style="background: var(--info-bg); border-left-color: var(--info); margin-bottom: 15px;">
+                            <strong>💡 Verification Tip</strong>
+                            <p style="margin-top: 8px;">Ask your employer's finance department for confirmation of export percentage. This can be verified through:</p>
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>Annual financial statements</li>
+                                <li>Tax returns showing export revenue</li>
+                                <li>Official documentation from customs/export authorities</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Company's main CAE sector:</label>
+                            <select id="caeSector">
+                                <option value="">Select CAE sector...</option>
+                                <option value="extractive">Extractive Industries (CAE 05-09)</option>
+                                <option value="manufacturing">Manufacturing (CAE 10-33)</option>
+                                <option value="ict">Information & Communication (CAE 58-63)</option>
+                                <option value="rd">R&D in Physical/Natural Sciences (CAE 721)</option>
+                                <option value="education">Higher Education (CAE 85420)</option>
+                                <option value="health">Human Health (CAE 86100-86904)</option>
+                                <option value="other">Other (not eligible)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Does the company export 50% or more of its turnover?</label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="exportYes" name="exportStatus" value="yes">
+                                    <label for="exportYes">
+                                        <strong>Yes, 50%+ exports confirmed</strong><br>
+                                        <small>Current year or past 2 years</small>
+                                    </label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="exportNo" name="exportStatus" value="no">
+                                    <label for="exportNo">
+                                        <strong>No or unsure</strong><br>
+                                        <small>Export percentage not confirmed or below 50%</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="conditional-field" id="strategicField">
+                        <div class="info-box" style="background: var(--info-bg); border-left-color: var(--info); margin-bottom: 15px;">
+                            <strong>💡 Verification Tip</strong>
+                            <p style="margin-top: 8px;">Strategic investment status is granted by AICEP or IAPMEI. Ask your employer:</p>
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li>If they have received official recognition from AICEP or IAPMEI</li>
+                                <li>For copies of approval letters or certificates</li>
+                                <li>About any investment incentive contracts they hold</li>
+                            </ul>
+                            <p style="margin-top: 8px;"><strong>Note:</strong> This applies to companies making significant productive investments recognized as important to the Portuguese economy or regional development.</p>
+                            <p style="margin-top: 10px;"><strong>More Information:</strong></p>
+                            <ul style="margin-left: 20px; margin-top: 5px;">
+                                <li><a href="https://www.aicep.pt/en/invest-in-portugal/incentives" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline;">AICEP Investment Incentives</a></li>
+                                <li><a href="https://www.iapmei.pt/PRODUTOS-E-SERVICOS/Incentivos-Financiamento.aspx" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline;">IAPMEI Incentives & Financing</a></li>
+                            </ul>
+                        </div>
+                        
+                        <label>Strategic Investment Recognition:</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="strategicYes" name="strategicStatus" value="yes">
+                                <label for="strategicYes">
+                                    <strong>Yes, recognized by AICEP or IAPMEI</strong><br>
+                                    <small>Employer has official recognition/approval</small>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="strategicNo" name="strategicStatus" value="no">
+                                <label for="strategicNo">
+                                    <strong>Not yet recognized or unsure</strong><br>
+                                    <small>Status needs to be confirmed with employer</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Application Entity:</strong> Tax Authority (AT) or AICEP/IAPMEI depending on category
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    document.querySelectorAll('input[name="employerCategory"]').forEach(radio => {
+                        radio.addEventListener('change', function() {
+                            document.getElementById('rfaiField').classList.remove('show');
+                            document.getElementById('exportField').classList.remove('show');
+                            document.getElementById('strategicField').classList.remove('show');
+                            
+                            if (this.value === 'rfai') {
+                                document.getElementById('rfaiField').classList.add('show');
+                            } else if (this.value === 'export') {
+                                document.getElementById('exportField').classList.add('show');
+                            } else if (this.value === 'strategic') {
+                                document.getElementById('strategicField').classList.add('show');
+                            }
+                        });
+                    });
+                }, 100);
+            } else if (activityType === 'rd') {
+                html = `
+                    <div class="info-box" style="background: var(--warning-bg); border-left-color: var(--warning);">
+                        <strong>⚠️ SIFIDE Registration Required</strong>
+                        <p style="margin-top: 8px;">Your employer's R&D activities must be officially registered under SIFIDE (Business R&D Tax Incentive System). Registration is verified by ANI (National Innovation Agency).</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Is your employer's R&D activity registered under SIFIDE?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="sifideYes" name="sifideStatus" value="yes">
+                                <label for="sifideYes">
+                                    <strong>Yes, SIFIDE-registered</strong><br>
+                                    <small>Employer has confirmed active SIFIDE registration</small>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="sifideUnsure" name="sifideStatus" value="unsure">
+                                <label for="sifideUnsure">
+                                    <strong>Unsure / Need to verify</strong><br>
+                                    <small>Haven't confirmed registration status</small>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="sifideNo" name="sifideStatus" value="no">
+                                <label for="sifideNo">
+                                    <strong>No, not registered</strong><br>
+                                    <small>R&D activities not registered under SIFIDE</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="conditional-field" id="sifideVerificationGuide">
+                        <h4 style="color: var(--primary); margin-bottom: 12px;">How to Verify SIFIDE Registration</h4>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <strong>Ask Your Employer's Finance/HR Department:</strong>
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li>Whether the company has active SIFIDE registration</li>
+                                <li>Which specific R&D projects are registered</li>
+                                <li>If your role is associated with registered R&D activities</li>
+                                <li>Copy of SIFIDE approval or registration documents</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: var(--bg-primary); padding: 12px; border-radius: 4px; border-left: 3px solid var(--info);">
+                            <strong>About SIFIDE:</strong>
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li>Companies must apply annually to ANI</li>
+                                <li>Only eligible R&D activities qualify</li>
+                                <li>Your employment must be directly linked to registered projects</li>
+                                <li>ANI certification required for IFICI benefit</li>
+                            </ul>
+                            <p style="margin-top: 10px;"><strong>More Information:</strong> <a href="https://www.ani.pt/en/valorization/tax-incentives/sifide-ii/" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline;">ANI SIFIDE Information</a></p>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 12px; background: var(--info-bg); border-radius: 4px;">
+                            <strong>Important:</strong> Not all R&D work qualifies. The specific projects you work on must be registered under SIFIDE and certified by ANI as eligible research and development activities.
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Application Entity:</strong> ANI (National Innovation Agency)<br>
+                        <strong>Note:</strong> ANI will verify your employer's SIFIDE registration and your role in eligible R&D activities.
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    const sifideRadios = document.querySelectorAll('input[name="sifideStatus"]');
+                    const verificationGuide = document.getElementById('sifideVerificationGuide');
+                    
+                    sifideRadios.forEach(radio => {
+                        radio.addEventListener('change', function() {
+                            if (this.value === 'unsure') {
+                                verificationGuide.classList.add('show');
+                            } else {
+                                verificationGuide.classList.remove('show');
+                            }
+                        });
+                    });
+                }, 100);
+            } else if (activityType === 'regional') {
+                html = `
+                    <div class="help-tooltip">
+                        <strong>💡 Where to Find This Information</strong>
+                        <ul>
+                            <li><strong>Regional regulations:</strong> Contact the regional government of Madeira or Azores</li>
+                            <li><strong>Madeira:</strong> <a href="https://www.gov-madeira.pt" target="_blank" rel="noopener noreferrer">Regional Government of Madeira</a></li>
+                            <li><strong>Azores:</strong> <a href="https://portal.azores.gov.pt" target="_blank" rel="noopener noreferrer">Regional Government of Azores</a></li>
+                            <li><strong>Status:</strong> Specific implementing regulations are still pending - check with local tax offices</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Autonomous Regions (Madeira/Azores):</strong> Specific regulations are pending. Please check with local authorities for current status and requirements.
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function validateEmployerStep() {
+            const activityType = formData.activityType;
+            const errorEl = document.getElementById('step4Error');
+            errorEl.classList.remove('show');
+            
+            if (activityType === 'teaching') {
+                const employerType = document.querySelector('input[name="employerType"]:checked');
+                if (!employerType) {
+                    errorEl.textContent = 'Please select your employer type.';
+                    errorEl.classList.add('show');
+                    return false;
+                }
+                formData.employerType = employerType.value;
+            } else if (activityType === 'startup') {
+                const certified = document.querySelector('input[name="startupCertified"]:checked');
+                if (!certified) {
+                    errorEl.textContent = 'Please indicate if your employer is a certified startup.';
+                    errorEl.classList.add('show');
+                    return false;
+                }
+                formData.startupCertified = certified.value;
+                
+                if (certified.value === 'unsure') {
+                    errorEl.textContent = 'Please verify your employer\'s certification status before proceeding. Use the verification guide above.';
+                    errorEl.classList.add('show');
+                    return false;
+                }
+            } else if (activityType === 'qualified' || activityType === 'productive') {
+                const category = document.querySelector('input[name="employerCategory"]:checked');
+                if (!category) {
+                    errorEl.textContent = 'Please select your employer category.';
+                    errorEl.classList.add('show');
+                    return false;
+                }
+                formData.employerCategory = category.value;
+                
+                if (category.value === 'rfai') {
+                    const rfaiStatus = document.querySelector('input[name="rfaiStatus"]:checked');
+                    if (!rfaiStatus) {
+                        errorEl.textContent = 'Please indicate RFAI application status.';
+                        errorEl.classList.add('show');
+                        return false;
+                    }
+                    formData.rfaiStatus = rfaiStatus.value;
+                } else if (category.value === 'export') {
+                    const caeSector = document.getElementById('caeSector').value;
+                    const exportStatus = document.querySelector('input[name="exportStatus"]:checked');
+                    if (!caeSector || !exportStatus) {
+                        errorEl.textContent = 'Please complete all export company fields.';
+                        errorEl.classList.add('show');
+                        return false;
+                    }
+                    formData.caeSector = caeSector;
+                    formData.exportStatus = exportStatus.value;
+                } else if (category.value === 'strategic') {
+                    const strategicStatus = document.querySelector('input[name="strategicStatus"]:checked');
+                    if (!strategicStatus) {
+                        errorEl.textContent = 'Please indicate strategic investment status.';
+                        errorEl.classList.add('show');
+                        return false;
+                    }
+                    formData.strategicStatus = strategicStatus.value;
+                }
+            } else if (activityType === 'rd') {
+                const sifideStatus = document.querySelector('input[name="sifideStatus"]:checked');
+                if (!sifideStatus) {
+                    errorEl.textContent = 'Please indicate SIFIDE registration status.';
+                    errorEl.classList.add('show');
+                    return false;
+                }
+                formData.sifideStatus = sifideStatus.value;
+                
+                if (sifideStatus.value === 'unsure') {
+                    errorEl.textContent = 'Please verify SIFIDE registration with your employer before proceeding. Use the verification guide above.';
+                    errorEl.classList.add('show');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        function calculateResults() {
+            if (!validateEmployerStep()) {
+                return;
+            }
+            
+            collectStepData(4);
+            
+            // Navigate to results
+            document.getElementById('step4').classList.remove('active');
+            document.querySelector('.step[data-step="4"]').classList.remove('active');
+            document.querySelector('.step[data-step="4"]').classList.add('completed');
+            
+            currentStep = 5;
+            document.getElementById('step5').classList.add('active');
+            document.querySelector('.step[data-step="5"]').classList.add('active');
+            
+            // Generate results
+            const results = assessEligibility();
+            renderResults(results);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function assessEligibility() {
+            const results = {
+                eligible: true,
+                conditional: false,
+                reasons: [],
+                passes: [],
+                failures: [],
+                warnings: [],
+                nextSteps: []
+            };
+            
+            // Check personal requirements
+            if (formData.priorResident === 'yes') {
+                results.eligible = false;
+                results.failures.push('You were a Portuguese tax resident within the prior 5 years');
+            } else {
+                results.passes.push('Not a Portuguese tax resident in prior 5 years');
+            }
+            
+            if (formData.priorBenefit === 'yes') {
+                results.eligible = false;
+                results.failures.push('Previously benefited from NHR or Regressar regime');
+            } else {
+                results.passes.push('No prior NHR or Regressar benefit');
+            }
+            
+            // Check activity-specific requirements
+            if (formData.activityType === 'teaching') {
+                if (formData.employerType === 'other') {
+                    results.eligible = false;
+                    results.failures.push('Employer is not an eligible teaching/research institution');
+                } else {
+                    results.passes.push('Employed by eligible teaching/research institution');
+                    results.nextSteps.push('Apply through FCT (Fundação para a Ciência e a Tecnologia)');
+                }
+            } else if (formData.activityType === 'startup') {
+                if (formData.startupCertified === 'no') {
+                    results.eligible = false;
+                    results.failures.push('Employer is not a certified startup under Law 21/2023');
+                } else {
+                    results.passes.push('Employed by certified startup (verified)');
+                    results.nextSteps.push('Apply through Startup Portugal Association');
+                    results.nextSteps.push('Ensure employer\'s certification remains valid throughout your employment');
+                }
+            } else if (formData.activityType === 'rd') {
+                if (formData.sifideStatus === 'no') {
+                    results.eligible = false;
+                    results.failures.push('R&D activities not registered under SIFIDE');
+                } else {
+                    results.passes.push('R&D activities registered under SIFIDE');
+                    results.nextSteps.push('Apply through ANI (National Innovation Agency)');
+                }
+            } else if (formData.activityType === 'regional') {
+                results.conditional = true;
+                results.warnings.push('Autonomous regions regulations are pending - check with local authorities');
+            }
+            
+            // Check qualifications (if applicable)
+            if (formData.activityType !== 'teaching' && formData.activityType !== 'regional') {
+                if (formData.qualification === 'phd') {
+                    results.passes.push('Holds EQF Level 8 (Doctorate/PhD) qualification');
+                } else if (formData.qualification === 'bachelor' && parseInt(formData.yearsExperience) >= 3) {
+                    results.passes.push(`Holds Bachelor's degree with ${formData.yearsExperience} years of verified experience`);
+                } else if (formData.qualification === 'bachelor') {
+                    results.eligible = false;
+                    results.failures.push('Insufficient professional experience (less than 3 years)');
+                } else {
+                    results.eligible = false;
+                    results.failures.push('Does not meet minimum qualification requirements');
+                }
+            }
+            
+            // Check employer category requirements
+            if (formData.activityType === 'qualified' || formData.activityType === 'productive') {
+                if (formData.employerCategory === 'rfai') {
+                    if (formData.rfaiStatus === 'yes') {
+                        results.passes.push('Company has relevant RFAI applications');
+                        results.nextSteps.push('Apply through AICEP or IAPMEI');
+                    } else {
+                        results.eligible = false;
+                        results.failures.push('Company does not have relevant RFAI applications');
+                    }
+                } else if (formData.employerCategory === 'export') {
+                    if (formData.caeSector === 'other') {
+                        results.eligible = false;
+                        results.failures.push('Company CAE sector is not eligible for the regime');
+                    } else {
+                        results.passes.push('Company operates in eligible CAE sector');
+                        
+                        if (formData.exportStatus === 'yes') {
+                            results.passes.push('Company exports 50%+ of turnover');
+                            results.nextSteps.push('Apply through Tax Authority (AT)');
+                        } else {
+                            results.conditional = true;
+                            results.warnings.push('Export threshold (50%+) must be verified by employer');
+                        }
+                    }
+                } else if (formData.employerCategory === 'strategic') {
+                    if (formData.strategicStatus === 'yes') {
+                        results.passes.push('Strategic investment recognized by AICEP or IAPMEI');
+                        results.nextSteps.push('Apply through AICEP or IAPMEI');
+                    } else {
+                        results.conditional = true;
+                        results.warnings.push('Strategic investment status must be confirmed by AICEP or IAPMEI');
+                    }
+                }
+            }
+            
+            // Add registration deadline
+            let deadline = '';
+            if (formData.residencyYear === '2024') {
+                deadline = 'March 15, 2025';
+            } else if (formData.residencyYear === '2025') {
+                deadline = 'January 15, 2026';
+            } else {
+                deadline = 'January 15 of the year following tax residency';
+            }
+            results.nextSteps.push(`Submit application by ${deadline}`);
+            
+            return results;
+        }
+
+        function renderResults(results) {
+            const container = document.getElementById('resultsContent');
+            let html = '';
+            
+            if (!results.eligible) {
+                html = `
+                    <div class="result-box ineligible">
+                        <h3>❌ Not Eligible for IFICI</h3>
+                        <p>Based on the information provided, you do not appear to meet the eligibility requirements for the IFICI tax incentive regime.</p>
+                        
+                        <div class="checklist">
+                            <h4>Assessment Summary:</h4>
+                            ${results.passes.map(pass => `<div class="checklist-item pass">${pass}</div>`).join('')}
+                            ${results.failures.map(fail => `<div class="checklist-item fail">${fail}</div>`).join('')}
+                        </div>
+                        
+                        <div class="next-steps">
+                            <h4>What This Means:</h4>
+                            <p>You may not be able to benefit from the 20% flat tax rate under IFICI. However, you may be eligible for other tax regimes in Portugal. Consider consulting with a tax professional to explore alternative options.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (results.conditional) {
+                html = `
+                    <div class="result-box conditional">
+                        <h3>⚠️ Conditionally Eligible for IFICI</h3>
+                        <p>You appear to meet the basic requirements, but certain conditions require verification.</p>
+                        
+                        <div class="checklist">
+                            <h4>Assessment Summary:</h4>
+                            ${results.passes.map(pass => `<div class="checklist-item pass">${pass}</div>`).join('')}
+                            ${results.warnings.map(warn => `<div class="checklist-item" style="background: var(--warning-bg);">⚠️ ${warn}</div>`).join('')}
+                        </div>
+                        
+                        <div class="next-steps">
+                            <h4>Next Steps:</h4>
+                            <ul>
+                                ${results.nextSteps.map(step => `<li>${step}</li>`).join('')}
+                                <li>Verify all conditions with your employer</li>
+                                <li>Gather required documentation</li>
+                                <li>Consult with a tax professional for official confirmation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-box">
+                            <strong>Benefit:</strong> If fully eligible, you will be taxed at a 20% flat rate on Portuguese-source employment income for up to 10 years.
+                        </div>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="result-box eligible">
+                        <h3>✓ Likely Eligible for IFICI</h3>
+                        <p>Based on the information provided, you appear to meet the requirements for the IFICI tax incentive regime!</p>
+                        
+                        <div class="checklist">
+                            <h4>Assessment Summary:</h4>
+                            ${results.passes.map(pass => `<div class="checklist-item pass">${pass}</div>`).join('')}
+                        </div>
+                        
+                        <div class="next-steps">
+                            <h4>Next Steps:</h4>
+                            <ul>
+                                ${results.nextSteps.map(step => `<li>${step}</li>`).join('')}
+                                <li>Gather required documentation (employment contract, qualifications, etc.)</li>
+                                <li>Work with your employer to prepare the application</li>
+                                <li>Consider consulting with a tax professional for official confirmation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-box">
+                            <strong>Benefit:</strong> You will be taxed at a 20% flat rate on Portuguese-source employment income for up to 10 years, potentially saving significant taxes compared to standard progressive rates.
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function downloadReport() {
+            console.log('downloadReport called');
+            try {
+                const results = assessEligibility();
+                let report = 'IFICI ELIGIBILITY ASSESSMENT REPORT\n';
+                report += '='.repeat(50) + '\n\n';
+                report += 'Date: ' + new Date().toLocaleDateString() + '\n';
+                report += 'Based on: Ordinance 352/2024/1 (December 23, 2024)\n\n';
+                
+                report += 'PERSONAL INFORMATION\n';
+                report += '-'.repeat(50) + '\n';
+                report += `Residency Year: ${formData.residencyYear}\n`;
+                report += `Prior Portuguese Resident: ${formData.priorResident === 'yes' ? 'Yes' : 'No'}\n`;
+                report += `Prior NHR/Regressar Benefit: ${formData.priorBenefit === 'yes' ? 'Yes' : 'No'}\n\n`;
+                
+                report += 'ACTIVITY DETAILS\n';
+                report += '-'.repeat(50) + '\n';
+                report += `Activity Type: ${formData.activityType}\n`;
+                if (formData.qualification) {
+                    report += `Qualification: ${formData.qualification}\n`;
+                }
+                if (formData.yearsExperience) {
+                    report += `Years of Experience: ${formData.yearsExperience}\n`;
+                }
+                if (formData.profession) {
+                    report += `Profession: ${formData.profession}\n`;
+                }
+                report += '\n';
+                
+                report += 'ELIGIBILITY RESULT\n';
+                report += '-'.repeat(50) + '\n';
+                if (!results.eligible) {
+                    report += 'Status: NOT ELIGIBLE\n\n';
+                    report += 'Disqualifying Factors:\n';
+                    results.failures.forEach(fail => report += `- ${fail}\n`);
+                } else if (results.conditional) {
+                    report += 'Status: CONDITIONALLY ELIGIBLE\n\n';
+                    report += 'Passed Requirements:\n';
+                    results.passes.forEach(pass => report += `- ${pass}\n`);
+                    report += '\nConditions to Verify:\n';
+                    results.warnings.forEach(warn => report += `- ${warn}\n`);
+                } else {
+                    report += 'Status: LIKELY ELIGIBLE\n\n';
+                    report += 'Met Requirements:\n';
+                    results.passes.forEach(pass => report += `- ${pass}\n`);
+                }
+                
+                report += '\nNEXT STEPS\n';
+                report += '-'.repeat(50) + '\n';
+                results.nextSteps.forEach(step => report += `- ${step}\n`);
+                
+                report += '\n' + '='.repeat(50) + '\n';
+                report += 'DISCLAIMER: This assessment is for informational purposes only.\n';
+                report += 'Consult with a qualified tax professional for official guidance.\n';
+                
+                const blob = new Blob([report], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `IFICI_Assessment_${new Date().toISOString().split('T')[0]}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                console.log('Download complete');
+            } catch (error) {
+                console.error('Download error:', error);
+                alert('Error generating report: ' + error.message);
+            }
+        }
+
+        function resetAssessment() {
+            console.log('resetAssessment called');
+            try {
+                const confirmed = confirm('Are you sure you want to start a new assessment? All current data will be lost.');
+                console.log('User confirmed:', confirmed);
+                if (confirmed) {
+                    console.log('Reloading page...');
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.error('Reset error:', error);
+                alert('Error resetting assessment: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
