@@ -514,55 +514,217 @@
             color: var(--primary-dark);
         }
 
-        .disclaimer-container {
-            background: var(--warning-bg);
-            border-left: 4px solid var(--warning);
-            border-radius: 4px;
-            margin-bottom: 30px;
-            overflow: hidden;
+
+        /* Landing Hero Styles */
+        .landing-hero {
+            margin: 40px 0;
         }
 
-        .disclaimer-header {
-            padding: 15px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
+        .landing-hero.hidden {
+            display: none;
+        }
+
+        .hero-content {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .benefit-card {
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.6s ease-out forwards;
+        }
+
+        .benefit-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .benefit-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .benefit-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .benefit-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .benefit-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 20px;
+            display: inline-flex;
             align-items: center;
-            user-select: none;
-            transition: background 0.2s;
+            justify-content: center;
+            background: var(--primary);
+            border-radius: 12px;
+            animation: bounceIn 0.8s ease-out;
         }
 
-        .disclaimer-header:hover {
-            background: rgba(0, 0, 0, 0.05);
+        .benefit-icon svg {
+            color: white;
+            stroke: white;
         }
 
-        .disclaimer-header strong {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--warning);
+        .benefit-card:nth-child(1) .benefit-icon {
+            animation-delay: 0.2s;
         }
 
-        .disclaimer-toggle {
-            font-size: 1.2rem;
-            color: var(--warning);
-            transition: transform 0.3s;
+        .benefit-card:nth-child(2) .benefit-icon {
+            animation-delay: 0.3s;
         }
 
-        .disclaimer-toggle.collapsed {
-            transform: rotate(-90deg);
+        .benefit-card:nth-child(3) .benefit-icon {
+            animation-delay: 0.4s;
         }
 
-        .disclaimer-content {
-            max-height: 500px;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-            padding: 0 15px 15px 15px;
+        .benefit-card:nth-child(4) .benefit-icon {
+            animation-delay: 0.5s;
         }
 
-        .disclaimer-content.collapsed {
-            max-height: 0;
-            padding: 0 15px;
+        .benefit-card h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .benefit-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .benefit-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .benefit-list li {
+            padding: 6px 0 6px 24px;
+            position: relative;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .benefit-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            padding: 40px 30px;
+            border-radius: 12px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: scale(0.95);
+            animation: fadeInScale 0.6s ease-out 0.5s forwards;
+        }
+
+        .cta-section h3,
+        .cta-section p {
+            color: white;
+        }
+
+        .btn-large {
+            font-size: 1.1rem;
+            padding: 14px 32px;
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-large:hover {
+            background: var(--bg-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .landing-hero {
+                margin: 20px 0;
+            }
+
+            .hero-content h2 {
+                font-size: 1.6rem !important;
+            }
+
+            .benefit-card {
+                padding: 20px;
+            }
+
+            .cta-section {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
@@ -570,8 +732,6 @@
     <div class="container">
         <header>
             <h1>IFICI Eligibility Assessor</h1>
-            <p class="regulation-ref">Tax Incentive for Scientific Research and Innovation</p>
-            <p class="regulation-ref">Based on Ordinance 352/2024/1 (December 23, 2024)</p>
             <p style="margin-top: 15px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; align-items: center;">
                 <a href="https://info.portaldasfinancas.gov.pt/pt/atualidades/legislativa/Paginas/Portaria_352_2024_1.aspx" target="_blank" rel="noopener noreferrer" 
                    style="display: inline-block; padding: 8px 16px; background: var(--primary); color: white; text-decoration: none; border-radius: 6px; font-size: 0.9rem; transition: background 0.2s;"
@@ -591,13 +751,92 @@
             </p>
         </header>
 
-        <div class="disclaimer-container">
-            <div class="disclaimer-header" onclick="toggleDisclaimer()">
-                <strong>⚠️ Important Disclaimer</strong>
-                <span class="disclaimer-toggle collapsed">▼</span>
-            </div>
-            <div class="disclaimer-content collapsed" id="disclaimerContent">
-                <p>This tool provides general information only and is not legal or tax advice. Results are indicative based on the information you provide. For official guidance, consult a qualified tax professional or the Portuguese Tax Authority (AT).</p>
+        <!-- Landing Hero Section - Disappears when assessment starts -->
+        <div id="landingHero" class="landing-hero">
+            <div class="hero-content">
+                <h2 style="font-size: 2rem; margin-bottom: 0.8rem; color: var(--primary); text-align: center;">Portugal's Powerful Tax Advantages</h2>
+                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2.5rem; text-align: center;">Discover if you qualify for one of Europe's most attractive tax regimes</p>
+                
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                <circle cx="12" cy="14" r="2"></circle>
+                            </svg>
+                        </div>
+                        <h3>20% Flat Income Tax</h3>
+                        <p>IFICI offers a 20% flat tax rate on employment and self-employment income for highly qualified professionals</p>
+                        <ul class="benefit-list">
+                            <li>No progressive rates (normally 14.5%-53%)</li>
+                            <li>Valid for 10 consecutive years</li>
+                            <li>Covers researchers, tech workers, scientists</li>
+                        </ul>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                <path d="M2 17l10 5 10-5"></path>
+                                <path d="M2 12l10 5 10-5"></path>
+                            </svg>
+                        </div>
+                        <h3>0% Crypto Capital Gains</h3>
+                        <p>Portugal does not tax cryptocurrency capital gains for individual investors</p>
+                        <ul class="benefit-list">
+                            <li>No CGT on crypto held as investment</li>
+                            <li>Applies to Bitcoin, Ethereum, all cryptos</li>
+                            <li>No minimum holding period required</li>
+                        </ul>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <h3>Simplified Tax Regime</h3>
+                        <p>Reduce effective income tax rate to ~15% with the simplified regime for self-employed</p>
+                        <ul class="benefit-list">
+                            <li>Fixed deductions based on activity type</li>
+                            <li>Up to 75% automatic expense deduction</li>
+                            <li>Minimal bookkeeping requirements</li>
+                        </ul>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                        </div>
+                        <h3>Foreign Income Exemptions</h3>
+                        <p>Most foreign-sourced income exempt from Portuguese taxation under IFICI</p>
+                        <ul class="benefit-list">
+                            <li>Foreign dividends: exempt</li>
+                            <li>Foreign capital gains: exempt</li>
+                            <li>Foreign rental income: exempt</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cta-section">
+                    <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem; text-align: center;">Check Your IFICI Eligibility in 5 Minutes</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; text-align: center;">Free assessment based on official Ordinance 352/2024/1. Get instant results and know exactly what documents you need.</p>
+                    <div style="text-align: center;">
+                        <button type="button" class="btn-primary btn-large" onclick="startAssessment()">Start Free Assessment →</button>
+                    </div>
+                </div>
+
+                <div class="disclaimer-preview" style="margin-top: 2.5rem; padding: 15px; background: var(--bg-secondary); border-radius: 8px; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
+                    <strong>Note:</strong> This tool provides informational guidance only. For official tax advice, consult a qualified Portuguese tax advisor or the Tax Authority (Autoridade Tributária e Aduaneira).
+                </div>
             </div>
         </div>
 
@@ -916,14 +1155,6 @@
         let formData = {};
 
         // Toggle disclaimer visibility
-        function toggleDisclaimer() {
-            const content = document.getElementById('disclaimerContent');
-            const toggle = document.querySelector('.disclaimer-toggle');
-            
-            content.classList.toggle('collapsed');
-            toggle.classList.toggle('collapsed');
-        }
-
         // Event listeners for dynamic fields
         document.getElementById('residencyYear').addEventListener('change', function() {
             const year = this.value;
@@ -1004,6 +1235,21 @@
                         <li><strong>Experience verification:</strong> Past employers can provide written confirmation of your work history</li>
                     </ul>
                 `;
+            }
+        }
+
+        function startAssessment() {
+            // Hide landing hero
+            const landingHero = document.getElementById('landingHero');
+            landingHero.classList.add('hidden');
+            
+            // Scroll to top of assessment
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Focus on first step
+            const firstInput = document.getElementById('residencyYear');
+            if (firstInput) {
+                setTimeout(() => firstInput.focus(), 300);
             }
         }
 
