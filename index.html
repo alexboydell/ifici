@@ -518,212 +518,209 @@
         /* Landing Hero Styles */
         .landing-hero {
             margin: 40px 0;
+            background: linear-gradient(135deg, rgba(33, 128, 133, 0.05) 0%, rgba(42, 159, 164, 0.05) 100%);
+            border-radius: 20px;
+            padding: 60px 30px;
+            position: relative;
         }
 
         .landing-hero.hidden {
             display: none;
         }
 
-        .hero-content {
+        .hero-overlay {
             max-width: 1100px;
             margin: 0 auto;
         }
 
-        .benefits-grid {
+        .hero-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 50px;
+            margin-bottom: 30px;
         }
 
-        .benefit-card {
-            background: var(--bg-secondary);
-            padding: 25px;
-            border-radius: 12px;
-            border: 2px solid var(--border);
-            transition: transform 0.2s, border-color 0.2s;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideInUp 0.6s ease-out forwards;
+        @media (prefers-color-scheme: dark) {
+            .hero-box {
+                background: rgba(45, 45, 45, 0.95);
+            }
         }
 
-        .benefit-card:nth-child(1) {
-            animation-delay: 0.1s;
+        .hero-left {
+            display: flex;
+            flex-direction: column;
         }
 
-        .benefit-card:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .benefit-card:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .benefit-card:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .benefit-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
-        }
-
-        .benefit-icon {
-            width: 64px;
-            height: 64px;
+        .hero-title {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            color: var(--primary);
             margin-bottom: 20px;
-            display: inline-flex;
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .hero-features {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--primary);
-            border-radius: 12px;
-            animation: bounceIn 0.8s ease-out;
+            flex-shrink: 0;
         }
 
-        .benefit-icon svg {
+        .feature-icon svg {
             color: white;
             stroke: white;
         }
 
-        .benefit-card:nth-child(1) .benefit-icon {
-            animation-delay: 0.2s;
-        }
-
-        .benefit-card:nth-child(2) .benefit-icon {
-            animation-delay: 0.3s;
-        }
-
-        .benefit-card:nth-child(3) .benefit-icon {
-            animation-delay: 0.4s;
-        }
-
-        .benefit-card:nth-child(4) .benefit-icon {
-            animation-delay: 0.5s;
-        }
-
-        .benefit-card h3 {
-            color: var(--primary);
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .benefit-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .benefit-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .benefit-list li {
-            padding: 6px 0 6px 24px;
-            position: relative;
+        .feature-item span {
+            font-size: 1rem;
             color: var(--text-primary);
-            font-size: 0.9rem;
+            font-weight: 500;
         }
 
-        .benefit-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--success);
-            font-weight: bold;
-        }
-
-        .cta-section {
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-            padding: 40px 30px;
-            border-radius: 12px;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            opacity: 0;
-            transform: scale(0.95);
-            animation: fadeInScale 0.6s ease-out 0.5s forwards;
-        }
-
-        .cta-section h3,
-        .cta-section p {
-            color: white;
-        }
-
-        .btn-large {
+        .btn-hero {
+            background: #FCD34D;
+            color: #1a202c;
+            border: none;
+            padding: 16px 40px;
             font-size: 1.1rem;
-            padding: 14px 32px;
-            background: white;
-            color: var(--primary);
             font-weight: 600;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(252, 211, 77, 0.4);
+            align-self: flex-start;
         }
 
-        .btn-large:hover {
-            background: var(--bg-primary);
+        .btn-hero:hover {
+            background: #FDE68A;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 16px rgba(252, 211, 77, 0.5);
         }
 
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        .hero-note {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 15px;
+        }
+
+        .hero-right {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .benefit-pill {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .benefit-pill:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .benefit-pill {
+                background: var(--bg-secondary);
+                border-color: var(--border);
             }
         }
 
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                transform: scale(1);
-            }
+        .pill-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
         }
 
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
+        .pill-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .hero-disclaimer {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 1024px) {
+            .hero-box {
+                grid-template-columns: 1fr;
+                padding: 40px 30px;
+                gap: 35px;
             }
-            to {
-                opacity: 1;
-                transform: scale(1);
+            
+            .hero-title {
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 768px) {
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .landing-hero {
+                padding: 30px 15px;
                 margin: 20px 0;
             }
 
-            .hero-content h2 {
-                font-size: 1.6rem !important;
-            }
-
-            .benefit-card {
-                padding: 20px;
-            }
-
-            .cta-section {
+            .hero-box {
                 padding: 30px 20px;
+            }
+
+            .hero-title {
+                font-size: 1.75rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .btn-hero {
+                width: 100%;
+                text-align: center;
+            }
+
+            .benefit-pill {
+                padding: 12px 16px;
             }
         }
     </style>
@@ -753,88 +750,76 @@
 
         <!-- Landing Hero Section - Disappears when assessment starts -->
         <div id="landingHero" class="landing-hero">
-            <div class="hero-content">
-                <h2 style="font-size: 2rem; margin-bottom: 0.8rem; color: var(--primary); text-align: center;">Portugal's Powerful Tax Advantages</h2>
-                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2.5rem; text-align: center;">Discover if you qualify for one of Europe's most attractive tax regimes</p>
+            <div class="hero-overlay">
+                <div class="hero-box">
+                    <div class="hero-left">
+                        <h2 class="hero-title">Secure Your Portugal Tax Benefits with IFICI</h2>
+                        <p class="hero-subtitle">Portugal's IFICI regime offers a 20% flat tax rate on employment income for 10 years. Check your eligibility for free in minutes.</p>
+                        
+                        <div class="hero-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <span>20% Flat Tax Rate (vs 14.5%-53%)</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <span>0% Tax on Crypto Capital Gains</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <span>Foreign Income Exemptions</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <span>Valid for 10 Consecutive Years</span>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn-hero" onclick="startAssessment()">Check Your Eligibility</button>
+                        <p class="hero-note">Free assessment based on official Ordinance 352/2024/1</p>
+                    </div>
+                    
+                    <div class="hero-right">
+                        <div class="benefit-pill">
+                            <div class="pill-icon">💼</div>
+                            <div class="pill-text">Instant Eligibility Results</div>
+                        </div>
+                        <div class="benefit-pill">
+                            <div class="pill-icon">📋</div>
+                            <div class="pill-text">Document Checklist</div>
+                        </div>
+                        <div class="benefit-pill">
+                            <div class="pill-icon">🎯</div>
+                            <div class="pill-text">Application Guidance</div>
+                        </div>
+                        <div class="benefit-pill">
+                            <div class="pill-icon">📊</div>
+                            <div class="pill-text">Downloadable Report</div>
+                        </div>
+                        <div class="benefit-pill">
+                            <div class="pill-icon">⚡</div>
+                            <div class="pill-text">5-Minute Assessment</div>
+                        </div>
+                    </div>
+                </div>
                 
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                                <circle cx="12" cy="14" r="2"></circle>
-                            </svg>
-                        </div>
-                        <h3>20% Flat Income Tax</h3>
-                        <p>IFICI offers a 20% flat tax rate on employment and self-employment income for highly qualified professionals</p>
-                        <ul class="benefit-list">
-                            <li>No progressive rates (normally 14.5%-53%)</li>
-                            <li>Valid for 10 consecutive years</li>
-                            <li>Covers researchers, tech workers, scientists</li>
-                        </ul>
-                    </div>
-
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                                <path d="M2 17l10 5 10-5"></path>
-                                <path d="M2 12l10 5 10-5"></path>
-                            </svg>
-                        </div>
-                        <h3>0% Crypto Capital Gains</h3>
-                        <p>Portugal does not tax cryptocurrency capital gains for individual investors</p>
-                        <ul class="benefit-list">
-                            <li>No CGT on crypto held as investment</li>
-                            <li>Applies to Bitcoin, Ethereum, all cryptos</li>
-                            <li>No minimum holding period required</li>
-                        </ul>
-                    </div>
-
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="12" y1="1" x2="12" y2="23"></line>
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                            </svg>
-                        </div>
-                        <h3>Simplified Tax Regime</h3>
-                        <p>Reduce effective income tax rate to ~15% with the simplified regime for self-employed</p>
-                        <ul class="benefit-list">
-                            <li>Fixed deductions based on activity type</li>
-                            <li>Up to 75% automatic expense deduction</li>
-                            <li>Minimal bookkeeping requirements</li>
-                        </ul>
-                    </div>
-
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="2" y1="12" x2="22" y2="12"></line>
-                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                            </svg>
-                        </div>
-                        <h3>Foreign Income Exemptions</h3>
-                        <p>Most foreign-sourced income exempt from Portuguese taxation under IFICI</p>
-                        <ul class="benefit-list">
-                            <li>Foreign dividends: exempt</li>
-                            <li>Foreign capital gains: exempt</li>
-                            <li>Foreign rental income: exempt</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="cta-section">
-                    <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem; text-align: center;">Check Your IFICI Eligibility in 5 Minutes</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; text-align: center;">Free assessment based on official Ordinance 352/2024/1. Get instant results and know exactly what documents you need.</p>
-                    <div style="text-align: center;">
-                        <button type="button" class="btn-primary btn-large" onclick="startAssessment()">Start Free Assessment →</button>
-                    </div>
-                </div>
-
-                <div class="disclaimer-preview" style="margin-top: 2.5rem; padding: 15px; background: var(--bg-secondary); border-radius: 8px; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
+                <div class="hero-disclaimer">
                     <strong>Note:</strong> This tool provides informational guidance only. For official tax advice, consult a qualified Portuguese tax advisor or the Tax Authority (Autoridade Tributária e Aduaneira).
                 </div>
             </div>
@@ -1145,6 +1130,9 @@
             </p>
             <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
                 This tool is for informational purposes only. For official guidance, consult the Portuguese Tax Authority or a qualified tax professional. All links open in a new window for your convenience.
+            </p>
+            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 12px; text-align: center; opacity: 0.7;">
+                Last Updated: January 28, 2026
             </p>
         </div>
     </footer>
